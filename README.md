@@ -12,7 +12,7 @@ lerna bootstrap --hoist
 ## Run
 
 ```bash
-lerna run --parallel start
+lerna run start --parallel
 ```
 
 ## Usage
