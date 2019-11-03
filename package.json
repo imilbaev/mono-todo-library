@@ -1,0 +1,14 @@
+{
+  "name": "mono-todo-library",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.18.3"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "lerna run start"
+  }
+}
