@@ -3,9 +3,15 @@
  */
 /// <reference types="react" />
 import { RouteComponentProps } from "react-router-dom";
-declare type TParams = {
+import { TodoItem } from "./TodoList";
+interface RouterParams {
     todoId: string;
-};
-/** My First component */
-export declare function TodoDetails({ match }: RouteComponentProps<TParams>): JSX.Element;
+}
+interface TodoDetailsProps extends RouteComponentProps<RouterParams> {
+    items: TodoItem[];
+}
+/**
+ * TodoDetails component example
+ */
+export declare function TodoDetails({ match, items }: TodoDetailsProps): JSX.Element;
 export {};

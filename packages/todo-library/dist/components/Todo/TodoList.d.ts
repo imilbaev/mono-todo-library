@@ -9,6 +9,7 @@ export interface TodoItem {
 }
 interface TodoListProps {
     items: TodoItem[];
+    onToggle: Function;
 }
 /**
  * TodoList component

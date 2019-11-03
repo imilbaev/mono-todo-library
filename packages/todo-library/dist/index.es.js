@@ -29,6 +29,17 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -3596,7 +3607,6 @@ if (process.env.NODE_ENV !== "production") {
     global$1[key$1] = "esm";
   }
 }
-//# sourceMappingURL=react-router.js.map
 
 /**
  * The public API for a <Router> that uses HTML5 history.
@@ -3896,7 +3906,6 @@ if (process.env.NODE_ENV !== "production") {
     style: propTypes.object
   });
 }
-//# sourceMappingURL=react-router-dom.js.map
 
 /**
  * @class TodoList
@@ -3910,32 +3919,40 @@ var TodoList = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     TodoList.prototype.render = function () {
-        var items = this.props.items;
+        var _a = this.props, items = _a.items, onToggle = _a.onToggle;
         return (React.createElement("ul", null, items.map(function (_a, id) {
             var todo = _a.todo, done = _a.done;
             return (React.createElement("li", { className: done ? "done" : "", key: id },
-                React.createElement("input", { name: "isDone", type: "checkbox", checked: done, onChange: console.log }),
+                React.createElement("input", { name: "isDone", type: "checkbox", checked: done, onChange: function () { return onToggle(id, !done); } }),
                 React.createElement(Link, { to: "/todos/" + id }, todo)));
         })));
     };
     return TodoList;
 }(React.Component));
-//# sourceMappingURL=TodoList.js.map
 
 /**
  * @class TodoDetails
  */
-/** My First component */
+/**
+ * TodoDetails component example
+ */
 function TodoDetails(_a) {
-    var match = _a.match;
+    var match = _a.match, items = _a.items;
+    var todoId = match.params.todoId;
+    var _b = items[todoId], todo = _b.todo, done = _b.done;
     return (React.createElement("div", null,
         React.createElement("h3", null,
-            "ID is ",
-            match.params.todoId),
+            "ToDo: ",
+            todo),
+        React.createElement("p", null,
+            "Status: ",
+            done ? "done" : "not done yet"),
         React.createElement(Link, { to: "/" }, "Back")));
 }
-//# sourceMappingURL=TodoDetails.js.map
 
+/**
+ * TodoContainer
+ */
 var TodoContainer = /** @class */ (function (_super) {
     __extends(TodoContainer, _super);
     function TodoContainer() {
@@ -3946,7 +3963,7 @@ var TodoContainer = /** @class */ (function (_super) {
         _this.inputRef = createRef();
         _this.onKeyDown = function (_a) {
             var key = _a.key;
-            if (key === 'Enter' && _this.inputRef.current) {
+            if (key === "Enter" && _this.inputRef.current) {
                 var value = _this.inputRef.current.value;
                 _this.setState({
                     items: __spreadArrays(_this.state.items, [{ todo: value, done: false }])
@@ -3954,14 +3971,22 @@ var TodoContainer = /** @class */ (function (_super) {
                 _this.inputRef.current.value = "";
             }
         };
+        _this.onToggle = function (todoId, done) {
+            var prevItems = __spreadArrays(_this.state.items);
+            prevItems[todoId].done = done;
+            _this.setState({
+                items: prevItems
+            });
+        };
         return _this;
     }
     TodoContainer.prototype.render = function () {
+        var _this = this;
         return (React.createElement(BrowserRouter, null,
             React.createElement(Switch, null,
-                React.createElement(Route, { path: "/todos/:todoId", children: TodoDetails }),
+                React.createElement(Route, { path: "/todos/:todoId", render: function (props) { return (React.createElement(TodoDetails, __assign({}, props, { items: _this.state.items }))); } }),
                 React.createElement(Route, { exact: true, path: "/" },
-                    React.createElement(TodoList, { items: this.state.items }),
+                    React.createElement(TodoList, { items: this.state.items, onToggle: this.onToggle }),
                     React.createElement("input", { type: "text", onKeyDown: this.onKeyDown, ref: this.inputRef })))));
     };
     return TodoContainer;

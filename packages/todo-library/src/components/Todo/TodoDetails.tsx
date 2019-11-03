@@ -4,15 +4,27 @@
 
 import React from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { TodoItem } from "./TodoList";
 
-type TParams = { todoId: string };
+interface RouterParams {
+  todoId: string;
+}
 
-/** My First component */
-export function TodoDetails({ match }: RouteComponentProps<TParams>) {
-	return (
-		<div>
-			<h3>ID is {match.params.todoId}</h3>
-			<Link to="/">Back</Link>
-		</div>
-	);
+interface TodoDetailsProps extends RouteComponentProps<RouterParams> {
+  items: TodoItem[];
+}
+
+/**
+ * TodoDetails component example
+ */
+export function TodoDetails({ match, items }: TodoDetailsProps) {
+  const todoId = match.params.todoId;
+  const { todo, done } = items[todoId];
+  return (
+    <div>
+      <h3>ToDo: {todo}</h3>
+      <p>Status: {done ? "done" : "not done yet"}</p>
+      <Link to="/">Back</Link>
+    </div>
+  );
 }

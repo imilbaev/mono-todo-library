@@ -19,12 +19,12 @@ lerna run start --parallel
 
 ```tsx
 import React from "react";
-import { ExampleComponent } from "todo-library";
+import { TodoContainer } from "todo-library";
 
-class Example extends React.Component {
-	render() {
-		return <ExampleComponent text="Test" />;
-	}
+export class App extends React.Component {
+  render() {
+    return <TodoContainer />;
+  }
 }
 ```
 
