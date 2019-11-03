@@ -9,5 +9,7 @@ export declare class TodoContainer extends React.Component {
             done: boolean;
         }[];
     };
+    inputRef: React.RefObject<HTMLInputElement>;
+    onKeyDown: ({ key }: React.KeyboardEvent<Element>) => void;
     render(): JSX.Element;
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,6 +27,14 @@ function __extends(d, b) {
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 }
 
 function _inheritsLoose(subClass, superClass) {
@@ -3588,6 +3596,7 @@ if (process.env.NODE_ENV !== "production") {
     global$1[key$1] = "esm";
   }
 }
+//# sourceMappingURL=react-router.js.map
 
 /**
  * The public API for a <Router> that uses HTML5 history.
@@ -3887,6 +3896,7 @@ if (process.env.NODE_ENV !== "production") {
     style: propTypes.object
   });
 }
+//# sourceMappingURL=react-router-dom.js.map
 
 /**
  * @class TodoList
@@ -3910,6 +3920,7 @@ var TodoList = /** @class */ (function (_super) {
     };
     return TodoList;
 }(React.Component));
+//# sourceMappingURL=TodoList.js.map
 
 /**
  * @class TodoDetails
@@ -3923,6 +3934,7 @@ function TodoDetails(_a) {
             match.params.todoId),
         React.createElement(Link, { to: "/" }, "Back")));
 }
+//# sourceMappingURL=TodoDetails.js.map
 
 var TodoContainer = /** @class */ (function (_super) {
     __extends(TodoContainer, _super);
@@ -3930,6 +3942,17 @@ var TodoContainer = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.state = {
             items: [{ todo: "Todo todo", done: false }, { todo: "Todo #2", done: true }]
+        };
+        _this.inputRef = createRef();
+        _this.onKeyDown = function (_a) {
+            var key = _a.key;
+            if (key === 'Enter' && _this.inputRef.current) {
+                var value = _this.inputRef.current.value;
+                _this.setState({
+                    items: __spreadArrays(_this.state.items, [{ todo: value, done: false }])
+                });
+                _this.inputRef.current.value = "";
+            }
         };
         return _this;
     }
@@ -3939,8 +3962,7 @@ var TodoContainer = /** @class */ (function (_super) {
                 React.createElement(Route, { path: "/todos/:todoId", children: TodoDetails }),
                 React.createElement(Route, { exact: true, path: "/" },
                     React.createElement(TodoList, { items: this.state.items }),
-                    React.createElement("input", { type: "text", name: "add" }),
-                    React.createElement("button", { type: "button" }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")))));
+                    React.createElement("input", { type: "text", onKeyDown: this.onKeyDown, ref: this.inputRef })))));
     };
     return TodoContainer;
 }(React.Component));
